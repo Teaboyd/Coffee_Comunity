@@ -92,7 +92,7 @@ authRouter.post("/login" , async (req,res) =>{
     });
 });
 
-authRouter.put("/:changePass" , [protect] , async (req,res) =>{
+authRouter.patch("/:changePass" , [protect] , async (req,res) =>{
     
     try{
 
