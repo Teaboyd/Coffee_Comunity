@@ -18,7 +18,7 @@ export const protect = async (req,res,next) => {
                 message: "Token is invalid"
             });
         }
-        
+
         req.user_id = payload.id;
         next();
     });

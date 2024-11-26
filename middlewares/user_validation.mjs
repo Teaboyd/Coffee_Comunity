@@ -1,7 +1,5 @@
 export const ValidationCreateUser = (req,res,next) => {
 
-
-    
 	if(!req.body.username){
 		return res.status(400).json({message: "Please enter your username !" });
 	}

@@ -1,7 +1,19 @@
-import {MongoClient} from "mongodb";
+import mongoose from "mongoose"
 
-const connectionString = "mongodb://localhost:27017"
+const connectDB = async () =>{
 
-export const client = new MongoClient(connectionString);
+                try{
+                  mongoose.connect(
+                    'mongodb+srv://Teaaboyd:ZaxBam55666@cluster0.ga6gv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+                );
+                console.log("Connected to MongoDB successfully");
+                }catch(err){
+                    console.error("Error connecting to MongoDB:",err);
+                    process.exit(1);
+                }
+            };
+            
 
-export const db = client.db("Coffee_Comunity");
+export default connectDB;
+
+        
