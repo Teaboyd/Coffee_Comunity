@@ -38,6 +38,58 @@ profileRouter.post("/" , [protect] , async (req,res) => {
       });
     };
 });
+
+profileRouter.get("/" , [protect] , async (req,res) =>{
+    
+    try{
+    const profile = await Profile.findOne({user:req.user._id})
+
+    if(!profile){
+        return res.status(404).json({
+            message: "User not found"
+        });
+    }
+    
+    return res.status(200).json({
+       data: profile 
+    });
+    }catch(err){
+        return res.status(404).json({
+           message: "Profile cannot read because database issue",
+       });
+    };
+});
+
+profileRouter.put("/:userId" , [protect] , async (req,res) => {
+   try{
+   const userId = new ObjectId(req.params.userId)
+       
+   const newProfile = {
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        address: req.body.address,
+        bio: req.body.bio,
+        profile_pic: req.body.profile_pic,
+        birth_day: req.body.birth_day,
+        updated_at: new Date()
+   };
+
+   const updateProfile = await Profile.findByIdAndUpdate(
+        profile,
+       { $set: update},
+       { new :true }
+   );
+       
+     return res.status(200).json({
+        message: "Profile has been updated" 
+     });
+       
+   }catch(err){
+     return res.status(500).json({
+        message: "Profile cannot updated because database issue", 
+     });
+   };
+});
                                                                                                                                                       
 
 export default profileRouter;
