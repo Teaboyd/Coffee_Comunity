@@ -31,6 +31,11 @@ const profileSchema = new mongoose.Schema({
     updated_at: {
         type: Date,
         default: Date.now
+    },
+    user:{
+	type:mongoose.Schema.Types.ObjectId,
+	ref: "User",
+	required: true
     }
 });
 
