@@ -32,11 +32,11 @@ const profileSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    user:{
+    users:{
 	type:mongoose.Schema.Types.ObjectId,
 	ref: "User",
-	required: true
-    }
+	required: true,
+    },
 });
 
 const Profile = mongoose.model("Profile",profileSchema)

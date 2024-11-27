@@ -74,7 +74,7 @@ authRouter.post("/login" , async (req,res) =>{
         }
 
        token = jwt.sign(
-            { id: user.user_id},process.env.SECRET_KEY,{expiresIn:"15m",}
+            {id:user._id},process.env.SECRET_KEY,{expiresIn:"15m",}
           );
 
     }catch(err){
@@ -89,11 +89,11 @@ authRouter.post("/login" , async (req,res) =>{
     });
 });
 
-authRouter.patch("/:changePass" , [protect] , async (req,res) =>{
+authRouter.patch("/:userId" , [protect] , async (req,res) =>{
     
     try{
 
-        const userPass = new ObjectId(req.params.changePass);
+        const userPass = new ObjectId(req.params.userId);
         const { currentPassword , newPassword } = req.body // รับรหัสเดิมและรหัสใหม่ //
 
         // เช็คว่ามีการ Input รหัสเดิมและรหัสใหม่ เข้ามาไหม //

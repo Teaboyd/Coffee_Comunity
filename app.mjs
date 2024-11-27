@@ -2,7 +2,8 @@ import express from "express";
 import connectDB from "./utils/db.mjs";
 import authRouter from "./apps/auth.mjs"
 import profileRouter from "./apps/profiles.mjs";
-import mongoose from "mongoose";
+import postRouter from "./apps/posts.mjs";
+
 
 
 async function init() {
@@ -13,7 +14,8 @@ async function init() {
 
     app.use(express.json());
     app.use("/auth",authRouter);
-    app.use("/profile",profileRouter)
+    app.use("/profile",profileRouter);
+    app.use("/post",postRouter);
 
     app.get("/" , (req,res) => {
         return res.json("Welcome to My Project")
