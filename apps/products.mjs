@@ -60,3 +60,8 @@ productRouter.get("/" , [protect] , async (req,res) => {
   }; 
   
 });
+
+// เช็คดูสินค้าบางชิ้น // 
+productRouter.get("/:productId" , [protect] , async (req,res) => {
+  
+});
