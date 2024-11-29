@@ -62,7 +62,17 @@ postRouter.get("/" , [protect] , async (req,res) => {
 postRouter.put("/:postId" , [protect] , async (req,res) =>{
 
     try{
-    const updatePost = new ObjectId(req.params.postId)
+    const {postId} = req.params
+    const postChecker = await Post.findById(postId);
+
+    console.log(postId)
+
+    if ( !postChecker ){
+        return res.status(404).json({
+            message: "Post not found"
+        });
+    };
+
     const { title , postBody , imageAndVdo , link } = req.body
 
     const newPost = ({
@@ -75,7 +85,7 @@ postRouter.put("/:postId" , [protect] , async (req,res) =>{
     });
 
     await Post.findByIdAndUpdate(
-        updatePost,
+        postId,
         {$set: newPost},
         {new: true}
     );
@@ -83,12 +93,14 @@ postRouter.put("/:postId" , [protect] , async (req,res) =>{
     return res.status(201).json({
         message: "Post has been updated"
     });
+
     }catch(err){
         console.log(err)
         return res.status(500).json({
            message: "Post cannot updated because database issue", 
         });
     }
+
 });
 
 postRouter.delete("/:postId" , [protect] , async (req,res) => { 

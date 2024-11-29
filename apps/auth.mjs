@@ -144,8 +144,8 @@ authRouter.delete("/:userId" , [protect] , async (req,res) => {
 
     try{
 
-        const userId = req.params.userId 
-        const userChecker = User.findById({userId})// นำข้อมูลที่ดึงมา นำเข้าไปไว้ในตัวแปร user //
+        const {userId} = req.params
+        const userChecker = await User.findById({userId})// นำข้อมูลที่ดึงมา นำเข้าไปไว้ในตัวแปร user //
 
         // เช็คว่าข้อมูลของ user ที่ดึงมามีไหม //
         if ( !userChecker ){
@@ -159,7 +159,7 @@ authRouter.delete("/:userId" , [protect] , async (req,res) => {
     }catch(err){
         console.log(err)
         return res.status(500).json({
-            message: "This user cannot be deleted because database issue"
+            message: "This user cannot be deleted because database issue",
       });
     };
 
@@ -168,5 +168,47 @@ authRouter.delete("/:userId" , [protect] , async (req,res) => {
     });
 
 });
+
+authRouter.patch("/account/:userId" , [protect] , async (req,res) => {
+
+    try{
+    const updateACC = new ObjectId(req.params.userId);
+    const { email , firstName , lastName } = req.body
+
+    function isValidEmail(email){
+        const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        return regex.test(email);}
+
+	if (!isValidEmail(req.body.email)){
+        return res.status(400).json({
+            message: "Please enter a valid email address !"
+        	})
+    	}
+    
+    const newUser = ({
+        email,
+        firstName,
+        lastName,
+        updated_at: new Date()
+    })
+
+    await User.findByIdAndUpdate(
+        updateACC,
+        {$set: newUser},
+        {new: true}
+    );
+
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+           message: "Account cannot updated because database issue", 
+        });
+    }
+
+    return res.status(201).json({
+        message: "Account has been updated"
+    });
+});
+
 
 export default authRouter; 

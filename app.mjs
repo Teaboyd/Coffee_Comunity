@@ -3,6 +3,7 @@ import connectDB from "./utils/db.mjs";
 import authRouter from "./apps/auth.mjs"
 import profileRouter from "./apps/profiles.mjs";
 import postRouter from "./apps/posts.mjs";
+import productRouter from "./apps/products.mjs";
 
 
 
@@ -16,6 +17,7 @@ async function init() {
     app.use("/auth",authRouter);
     app.use("/profile",profileRouter);
     app.use("/post",postRouter);
+    app.use("/product",productRouter);
 
     app.get("/" , (req,res) => {
         return res.json("Welcome to My Project")

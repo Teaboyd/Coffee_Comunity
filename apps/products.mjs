@@ -15,7 +15,7 @@ productRouter.post("/" , [protect] , async (req,res) => {
         name,
         description,
         price,
-        quatity,
+        quantity,
         category,
         created_at: new Date(),
         updated_at: new Date(),
@@ -63,5 +63,55 @@ productRouter.get("/" , [protect] , async (req,res) => {
 
 // เช็คดูสินค้าบางชิ้น // 
 productRouter.get("/:productId" , [protect] , async (req,res) => {
-  
+
+    try{
+    const {productId} = req.params
+    const selectProducts = await Product.findById(productId)
+
+    if(!selectProducts){
+      return res.status(404).json({
+        message: "Product not found",
+      });
+    };
+
+    return res.status(200).json({
+      data: selectProducts,
+    });
+
+    }catch(err){
+      console.log(err)
+      return res.status(500).json({
+        message: "This product cannot read because database issue",
+      });
+    };
 });
+
+productRouter.delete("/:productId" , [protect] , async (req,res) =>{
+
+  try{
+      
+      const {productId} = req.params
+      const productChecker = await Product.findById(productId)
+
+      if ( !productChecker ){
+        return res.status(404).json({
+            message: "product not found"
+        });
+    };
+
+      await Product.findByIdAndDelete(productId)
+
+    
+      return res.status(200).json({
+        message: "Product delete successfully"
+      });
+
+  }catch(err){
+      console.log(err)
+        return res.status(500).json({
+            message: "This user cannot be deleted because database issue",
+      });
+  };
+});
+
+export default productRouter;
