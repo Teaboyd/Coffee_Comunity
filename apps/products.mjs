@@ -66,7 +66,7 @@ productRouter.get("/:productId" , [protect] , async (req,res) => {
 
     try{
     const {productId} = req.params
-    const selectProducts = await Product.findById(productId)
+    const selectProducts = await Product.findOne(users:req.user_id,productId)
 
     if(!selectProducts){
       return res.status(404).json({
