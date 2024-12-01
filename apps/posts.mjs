@@ -65,7 +65,6 @@ postRouter.put("/:postId" , [protect] , async (req,res) =>{
     const {postId} = req.params
     const postChecker = await Post.findById(postId);
 
-    console.log(postId)
 
     if ( !postChecker ){
         return res.status(404).json({
@@ -73,21 +72,21 @@ postRouter.put("/:postId" , [protect] , async (req,res) =>{
         });
     };
 
-    const { title , postBody , imageAndVdo , link } = req.body
-
-    const newPost = ({
-        users:req.user_id,
-        title,
-        postBody,
-        imageAndVdo,
-        link,
-        updated_at: new Date()
-    });
+    const { title , postBody , imageAndVdo , link ,  product_pic } = req.body
 
     await Post.findByIdAndUpdate(
         postId,
-        {$set: newPost},
-        {new: true}
+        {
+            $set: {
+                product_pic,
+                title,
+                postBody,
+                imageAndVdo,
+                link,
+                updated_at: new Date()
+            }
+        },
+        {new : true},
     );
 
     return res.status(201).json({

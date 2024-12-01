@@ -1,6 +1,10 @@
 import mongoose from "mongoose"
 
 const productsSchema = new mongoose.Schema({
+    product_pic:{
+      type:String,
+      require:true,
+    },
     name:{
       type:String,
       require:true

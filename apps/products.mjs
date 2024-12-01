@@ -66,7 +66,7 @@ productRouter.get("/:productId" , [protect] , async (req,res) => {
 
     try{
     const {productId} = req.params
-    const selectProducts = await Product.findOne(users:req.user_id,productId)
+    const selectProducts = await Product.findById(productId)
 
     if(!selectProducts){
       return res.status(404).json({
@@ -112,6 +112,49 @@ productRouter.delete("/:productId" , [protect] , async (req,res) =>{
             message: "This user cannot be deleted because database issue",
       });
   };
+});
+
+productRouter.put("/:productId" , [protect] , async (req,res) => { 
+
+  try{
+  const {productId} = req.params
+  const productChecker = await Product.findById(productId);
+
+  if ( !productChecker ){
+    return res.status(404).json({
+      message: "Post not found"
+    });
+  }
+
+  const { name , description , price , quantity , category } = req.body
+
+
+  await Product.findByIdAndUpdate (
+    productId,
+      {
+      $set: {
+        name,
+        description,
+        price,
+        quantity,
+        category,
+        updated_at: new Date(),
+      },
+     },
+   {new : true},
+  );
+
+
+  return res.status(201).json({
+    message: "Product has been updated"
+  });
+
+  }catch(err){
+    console.log(err)
+    return res.status(500).json({
+       message: "product cannot updated because database issue", 
+    });
+  }
 });
 
 export default productRouter;
