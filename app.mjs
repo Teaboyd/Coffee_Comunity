@@ -4,7 +4,7 @@ import authRouter from "./apps/auth.mjs"
 import profileRouter from "./apps/profiles.mjs";
 import postRouter from "./apps/posts.mjs";
 import productRouter from "./apps/products.mjs";
-
+import cartRouter from "./apps/carts.mjs";
 
 
 async function init() {
@@ -18,6 +18,7 @@ async function init() {
     app.use("/profile",profileRouter);
     app.use("/post",postRouter);
     app.use("/product",productRouter);
+    app.use("/cart",cartRouter);
 
     app.get("/" , (req,res) => {
         return res.json("Welcome to My Project")
