@@ -1,0 +1,60 @@
+.container {
+    display: flex;
+    flex-direction: column; /* จัดเรียงแนวตั้ง */
+    align-items: center;    /* จัดให้อยู่ตรงกลางแนวนอน */
+    justify-content: center; /* จัดให้อยู่ตรงกลางแนวตั้ง */
+    height: 100vh;          /* ให้ container สูงเต็มหน้า */
+    background: url(https://alvaromontoro.com/images/blog/medium-coffee.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left;
+}
+
+.register {
+    margin-bottom: 15px; /* เพิ่มระยะห่างระหว่าง header กับฟอร์ม */
+}
+
+.register h1 {
+    font-size: 24px;
+    text-align: center;
+    margin: 0;
+}
+
+.register-box {
+    width: 300px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 8px; /* เพิ่มความโค้งมน */
+    box-shadow: 0 4px 8px rgba(111, 78, 55, 0.5); /* เงาให้ดูสวยงาม */
+}
+
+.header-form {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.form {
+    width: 100%;
+    padding: 7px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.btn-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.register-box a {
+    display: block;
+    width: 50px;
+    padding: 15px;
+    text-decoration: none;
+    color: #fff;
+    border: 2px solid;
+    background-color:rgb(111, 78, 55);
+    border-radius: 15px;
+}

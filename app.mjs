@@ -5,6 +5,7 @@ import profileRouter from "./apps/profiles.mjs";
 import postRouter from "./apps/posts.mjs";
 import productRouter from "./apps/products.mjs";
 import cartRouter from "./apps/carts.mjs";
+import cors from "cors"
 
 
 async function init() {
@@ -14,6 +15,7 @@ async function init() {
     await connectDB();
 
     app.use(express.json());
+    app.use(cors());
     app.use("/auth",authRouter);
     app.use("/profile",profileRouter);
     app.use("/post",postRouter);

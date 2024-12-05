@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sapar Caffe</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="register">
+            <h1>Sign In (Sapar Caffe 0.1)</h1>
+        </div>
+
+        <div class="register-box">
+            
+            <span class="hearder-form">Username</span>
+            <input type="text" class="form" name="username" >
+
+            <span class="hearder-form">Password</span>
+            <input type="password" class="form" name="password">
+
+            <span class="hearder-form">Email address</span>
+            <input type="text" class="form" name="email">
+
+            <span class="hearder-form">Firstname</span>
+            <input type="text" class="form" name="firstName">
+
+            <span class="hearder-form">Lastname</span>
+            <input type="text" class="form" name="lastName">
+
+            <div class="btn-box">
+                <a href="#" class="btn" onclick="event.preventDefault(); submitDATA();">Sign In</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="index.mjs"></script>
+</body>
+</html>

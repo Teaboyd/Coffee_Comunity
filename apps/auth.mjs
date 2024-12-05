@@ -27,8 +27,7 @@ authRouter.post("/register" , [ValidationCreateUser] , async (req,res) => {
 	const salt = await bcrypt.genSalt(10);
 	const hashedPass = await bcrypt.hash(password,salt);
 
-	const newUser = new User({
-		
+	const newUser = new User({	
 		username,
 		password: hashedPass, // hashPassword //
 		email,
