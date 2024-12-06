@@ -99,7 +99,7 @@ productRouter.delete("/:productId" , [protect] , async (req,res) =>{
         });
     };
 
-      await Product.findByIdAndDelete(productId)
+      await Product.deleteOne({_id:productId})
 
     
       return res.status(200).json({
