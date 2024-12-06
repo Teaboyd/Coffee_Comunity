@@ -114,6 +114,7 @@ productRouter.delete("/:productId" , [protect] , async (req,res) =>{
   };
 });
 
+// แก้ไขสินค้า //
 productRouter.put("/:productId" , [protect] , async (req,res) => { 
 
   try{

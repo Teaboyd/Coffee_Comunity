@@ -5,6 +5,7 @@ import Cart from "../modules/carts.mjs";
 
 const cartRouter = Router();
 
+// สร้าง cart //
 cartRouter.post("/" , [protect] , async (req,res) =>{
 
 	try{
@@ -30,7 +31,8 @@ cartRouter.post("/" , [protect] , async (req,res) =>{
 	}
 });
 
-cartRouter.post("/carts" , [protect] , async (req,res) => {
+// เพิ่ม products เข้าไปใน cart //
+cartRouter.post("/products" , [protect] , async (req,res) => {
 
 	try{
 	const {products , carts , quantity} = req.body
@@ -56,6 +58,7 @@ cartRouter.post("/carts" , [protect] , async (req,res) => {
 	}	
 });
 
+// ดึงข้อมูล products จากใน carts //
 cartRouter.get("/:cartIdProduct/products" , [protect] , async (req,res) => {
 	try{
 
@@ -76,6 +79,7 @@ cartRouter.get("/:cartIdProduct/products" , [protect] , async (req,res) => {
 	}
 });
 
+// ลบตัว products ออกจาก carts //
 cartRouter.delete("/:cartIdProduct" , [protect] , async (req,res) =>{
 
 	try{
@@ -104,4 +108,33 @@ cartRouter.delete("/:cartIdProduct" , [protect] , async (req,res) =>{
 	}
 });
 
+// คำนวณราคาสินค้าในตระกร้า //
+cartRouter.get("/:cartId/total" , [protect] , async (req,res) => {
+
+	try{
+	const { cartId } = req.params;
+	 // ดึงข้อมูล products ใน carts ออกมา โดยการใช้ populate เพื่อดึงข้อมูลสินค้าที่เชื่อมโยงกับ CartProduct
+	const cartProduct = await CartProduct.find({carts: cartId}).populate("products"); 
+	
+	// ใช้ reduce ในการ วนคำนวณ price แล้วเก็บไว้ใน totalPrice โดยมีการเช็คว่าถ้ามี product แต่ไม่มีราคาก็ให้ข้ามไป //
+	const totalPrice = cartProduct.reduce((total , cartProduct) => {
+		if(cartProduct.products && cartProduct.products.price){
+			return total + cartProduct.products.price * cartProduct.quantity;
+		}
+		return total;
+	},0);
+
+	return res.status(200).json({
+		totalPrice: totalPrice,
+	});
+	}catch(err){
+		console.log(err)
+		return res.status(500).json({
+			message: "Cannot computed price because database issue",
+		});
+	};
+});
+
+
+/// *** ยังไม่เริ่ม validation *** ///
 export default cartRouter
