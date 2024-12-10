@@ -127,6 +127,7 @@ cartRouter.get("/:cartId/total" , [protect] , async (req,res) => {
 	return res.status(200).json({
 		totalPrice: totalPrice,
 	});
+	
 	}catch(err){
 		console.log(err)
 		return res.status(500).json({

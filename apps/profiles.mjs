@@ -28,6 +28,7 @@ profileRouter.post("/" , [protect , uploadProfiles] , async (req,res) => {
     });
 
     await newProfile.save();
+    
     return res.status(201).json({
         message: "Profile has been created",  
     });

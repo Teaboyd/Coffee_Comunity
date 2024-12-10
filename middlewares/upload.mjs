@@ -10,7 +10,7 @@ export const uploadProfiles = multer({
       },
     }),
     limits: { fileSize: 1024 * 1024 * 5 }, // ขนาดไฟล์สูงสุด 5MB
-  }).single('picture');
+  }).single('profile_pic');
   
   
   export const uploadProducts = multer({
@@ -23,4 +23,16 @@ export const uploadProfiles = multer({
       },
     }),
     limits: { fileSize: 1024 * 1024 * 5 }, // ขนาดไฟล์สูงสุด 5MB
-  }).single('picture');
+  }).array('profile_pic');
+
+  export const uploadPosts = multer({
+    storage: multer.diskStorage({
+      destination: (req, file, cb) => {
+        cb(null, 'uploads/posts/'); // กำหนดที่เก็บไฟล์
+      },
+      filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname); // ตั้งชื่อไฟล์
+      },
+    }),
+    limits: { fileSize: 1024 * 1024 * 5 }, // ขนาดไฟล์สูงสุด 5MB
+  }).single('imageAndVdo');

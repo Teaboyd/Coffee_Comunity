@@ -1,20 +1,25 @@
 import { Router } from "express";
 import { protect } from "../middlewares/protect.mjs";
 import Post from "../modules/posts.mjs";
-import { ObjectId } from "mongodb";
+import { uploadPosts } from "../middlewares/upload.mjs";
 
 const postRouter = Router();
 
-postRouter.post("/" , [protect] , async (req,res) =>{
+postRouter.post("/" , [protect , uploadPosts] , async (req,res) =>{
 
     try{
-    const { title , postBody , imageAndVdo , link , like , dislike} = req.body
+    const { title , postBody , link , like , dislike} = req.body
+    let picturePath = null; 
+
+    if(req.file){
+        picturePath = req.file.path
+    }
 
     const newPost = new Post({
         users:req.user_id,
         title,
         postBody,
-        imageAndVdo,
+        imageAndVdo:picturePath,
         link,
         like,
         dislike,

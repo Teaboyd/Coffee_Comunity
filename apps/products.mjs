@@ -23,7 +23,7 @@ productRouter.post("/" , [protect , uploadProducts] , async (req,res) => {
         price,
         quantity,
         category,
-        picture: picturePath,
+        product_pic: picturePath,
         created_at: new Date(),
         updated_at: new Date(),
       });
