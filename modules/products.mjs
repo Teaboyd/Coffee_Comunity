@@ -22,6 +22,10 @@ const productsSchema = new mongoose.Schema({
       require:true,
       default:0
     },
+    picture:{
+      type:String,
+      require:true,
+    },
     category:{
       type:String,
       enum:["Coffee Beans" , "Barista Tools" , "Cleaning Tool"],

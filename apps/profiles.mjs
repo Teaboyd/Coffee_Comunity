@@ -2,26 +2,32 @@ import express from "express";
 import {protect} from "../middlewares/protect.mjs"
 import Profile from "../modules/profiles.mjs";
 import { ObjectId } from "mongodb";
+import { uploadProfiles } from "../middlewares/upload.mjs";
 
 const profileRouter = express.Router();
 
-profileRouter.post("/" , [protect] , async (req,res) => {
+profileRouter.post("/" , [protect , uploadProfiles] , async (req,res) => {
 
     try{
 
-    const { profile_pic , bio , address , gender , phone_num , birth_day } = req.body;// รับ _id จาก middlewares // 
+    const { bio , address , gender , phone_num , birth_day } = req.body;// รับ _id จาก middlewares // 
+    let picturePath = null; 
+
+    if(req.file){
+        picturePath = req.file.path
+    }
+
     const newProfile = new Profile ({
         users:req.user_id, // ดึงมาจากการตั้ง fk ไว้ใน modules profiles แล้ว ใส่ req.user_id จาก protect middle wares token //
-        profile_pic,
         bio,
+        profile_pic: picturePath,
         address,
         gender,
         phone_num,
-        birth_day
+        birth_day,
     });
 
     await newProfile.save();
-
     return res.status(201).json({
         message: "Profile has been created",  
     });

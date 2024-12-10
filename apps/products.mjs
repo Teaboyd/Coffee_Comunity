@@ -1,14 +1,20 @@
 import { Router } from "express";
 import Product from "../modules/products.mjs"; 
 import { protect } from "../middlewares/protect.mjs";
+import { uploadProducts } from "../middlewares/upload.mjs";
 
 const productRouter = Router();
 
-productRouter.post("/" , [protect] , async (req,res) => {
+productRouter.post("/" , [protect , uploadProducts] , async (req,res) => {
   
     try{
       
-      const { name , description , price , quantity , category } = req.body
+      const { name , description , price , quantity , category  } = req.body
+      let picturePath = null; 
+
+      if(req.file){
+	      picturePath = req.file.path
+      }
 
       const newProducts = new Product ({
         users:req.user_id,
@@ -17,11 +23,12 @@ productRouter.post("/" , [protect] , async (req,res) => {
         price,
         quantity,
         category,
+        picture: picturePath,
         created_at: new Date(),
         updated_at: new Date(),
       });
 
-      newProducts.save();
+      await newProducts.save();
       
     }catch(err){
       console.log(err)
@@ -86,6 +93,7 @@ productRouter.get("/:productId" , [protect] , async (req,res) => {
     };
 });
 
+// ลบสินค้า // 
 productRouter.delete("/:productId" , [protect] , async (req,res) =>{
 
   try{
