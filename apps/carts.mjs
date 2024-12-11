@@ -37,7 +37,7 @@ cartRouter.post("/products" , [protect] , async (req,res) => {
 	try{
 	const {products , carts , quantity} = req.body
 	const  productCart = new CartProduct ({
-		userId : req.user_id,
+		users : req.user_id,
 		products,
 		carts,
 		quantity,
@@ -59,13 +59,13 @@ cartRouter.post("/products" , [protect] , async (req,res) => {
 });
 
 // ดึงข้อมูล products จากใน carts //
-cartRouter.get("/:cartIdProduct/products" , [protect] , async (req,res) => {
+cartRouter.get("/:cartId/products" , [protect] , async (req,res) => {
 	try{
 
-		const { cartProductId } = req.params // ใช้ params เลือก id ของ carts
+		const { cartId } = req.params // ใช้ params เลือก id ของ carts
 
-		const productInCart = await CartProduct.find({ cartProduct: cartProductId}) // หา id ของ cartProduct ที่ users ส่งเข้ามา
-			.populate("products","name description price category") // populate ดึงข้อมูลจำเพาะของ products ออกมา
+		const productInCart = await CartProduct.find({ carts: cartId , users: req.user_id}) // หา id ของ cartProduct ที่ users ส่งเข้ามา
+            .populate("products","name description price category") // populate ดึงข้อมูลจำเพาะของ products ออกมา
 			.exec();
 
 		return res.status(200).json({
@@ -114,7 +114,7 @@ cartRouter.get("/:cartId/total" , [protect] , async (req,res) => {
 	try{
 	const { cartId } = req.params;
 	 // ดึงข้อมูล products ใน carts ออกมา โดยการใช้ populate เพื่อดึงข้อมูลสินค้าที่เชื่อมโยงกับ CartProduct
-	const cartProduct = await CartProduct.find({carts: cartId}).populate("products"); 
+	const cartProduct = await CartProduct.find({carts: cartId, users: req.user_id}).populate("products"); 
 	
 	// ใช้ reduce ในการ วนคำนวณ price แล้วเก็บไว้ใน totalPrice โดยมีการเช็คว่าถ้ามี product แต่ไม่มีราคาก็ให้ข้ามไป //
 	const totalPrice = cartProduct.reduce((total , cartProduct) => {
