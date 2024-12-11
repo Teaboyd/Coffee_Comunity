@@ -23,7 +23,7 @@ export const uploadProfiles = multer({
       },
     }),
     limits: { fileSize: 1024 * 1024 * 5 }, // ขนาดไฟล์สูงสุด 5MB
-  }).array('profile_pic');
+  }).array('product_pic');
 
   export const uploadPosts = multer({
     storage: multer.diskStorage({
